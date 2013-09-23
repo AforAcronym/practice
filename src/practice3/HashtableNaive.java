@@ -3,7 +3,7 @@ package practice3;
 /**
  * Hash table class Here is no hash function
  */
-public class Hashtable {
+public class HashtableNaive {
 
 	private static final int INITIAL_CAPACITY = 50;
 	private Object[] keys = new Object[INITIAL_CAPACITY];
@@ -71,7 +71,7 @@ public class Hashtable {
 	 * @return
 	 */
 	public Object get(Object key) {
-		for (int i = 0; i < keys.length; ++i) {
+		for (int i = 0; i < currentSize; ++i) {
 			if (key == keys[i]) {
 				currentIndex = i;
 				return values[i];
@@ -97,7 +97,7 @@ public class Hashtable {
 	/**
 	 * If index is within array boundary, removes element at specified index
 	 */
-	public void removeAt(Object[] array, int index) {
+	private void removeAt(Object[] array, int index) {
 		if (currentSize == 0) {
 			shiftArrayBy(array, -1);
 		} else {
@@ -106,17 +106,12 @@ public class Hashtable {
 		}
 	}
 	
-	private void exchangeWithLast(final int index) {
+	private void exchangeWithLast(Object[] array, final int index) {
 		if (currentSize > 1) {
-			
-			Object kt = keys[index];
-			Object vt = values[index];
-			
-			keys[index] = keys[currentSize-1];
-			values[index] = values[currentSize-1];
-			
-			keys[currentSize-1] = kt;
-			values[currentSize-1] = vt;
+			// Bubble
+			Object kt = array[index];
+			array[index] = array[currentSize-1];
+			array[currentSize-1] = kt;
 		}
 		checkEnoughCapacity(0);
 	}
@@ -130,8 +125,22 @@ public class Hashtable {
 	 */
 	public Object remove(Object key) {
 		Object val = get(key);
-		removeAt(keys, currentIndex);
-		removeAt(values, currentIndex);
+		
+		if ( val == null ) {
+			return null;
+		}
+		
+		// removeAt(keys, currentIndex);
+		// removeAt(values, currentIndex);
+		
+		checkEnoughCapacity(1);
+		// Switch the chosen element and the last one
+		exchangeWithLast(keys, currentIndex);
+		exchangeWithLast(values, currentIndex);
+		// Remove links to the chosen element
+		keys[currentSize-1] = null;
+		values[currentSize-1] = null;
+		
 		currentSize--;
 		return val;
 	}
@@ -139,9 +148,9 @@ public class Hashtable {
 	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
-		sb.append("Hashtable {\n");
+		sb.append("HashtableNaive {\n");
 		for (int i = 0; i < currentSize; i++) {
-			sb.append("" + keys[i] + "\t=>\t" + values[i] + "\n");
+			sb.append("  " + keys[i] + " => " + values[i] + "\n");
 		}
 		sb.append("}");
 		return sb.toString();

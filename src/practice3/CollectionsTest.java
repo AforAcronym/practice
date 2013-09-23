@@ -242,12 +242,26 @@ public class CollectionsTest {
 		System.out.println(st);
 
 		System.out.println("===============================");
-		Hashtable h = new Hashtable();
+		HashtableNaive h = new HashtableNaive();
+		System.out.println(" - - - - - - Printing out new HashtableNaive");
+		System.out.println(h);
+		
+		System.out.println(" - - - - - - Put: yolo → swag");
 		h.put("yolo", "swag");
+		System.out.println(h);
+		System.out.println(" - - - - - - Put: pewpew → zuzuz");
 		h.put("pewpew", "zuzuz");
+		System.out.println(h);
+		System.out.println(" - - - - - - Put: foo → bar");
 		h.put("foo", "bar");
+		System.out.println(h);
+		System.out.println(" - - - - - - Put: lang → java");
 		h.put("lang", "java");
+		System.out.println(h);
+		System.out.println(" - - - - - - Put: cool lang → perl");
 		h.put("cool lang", "perl");
+		System.out.println(h);
+		
 		System.out.println(" - - - - - - Get: foo");
 		System.out.println(h.get("foo"));
 		System.out.println(" - - - - - - Get: yolo");
@@ -265,9 +279,29 @@ public class CollectionsTest {
 		System.out.println(" - - - - - - Printing out");
 		System.out.println(h);
 		
-		System.out.println(" - - - - - - Remove: pewpew");
+		System.out.println(" - - - - - - Remove: pewpew and check for null");
 		h.remove("pewpew");
 		System.out.println(h.get("pewpew"));
+
+		System.out.println(" - - - - - - Printing out");
+		System.out.println(h);
+		
+		System.out.println(" - - - - - - Remove: yolo and check for null");
+		h.remove("yolo");
+		System.out.println(h.get("yolo"));
+
+		System.out.println(" - - - - - - Printing out");
+		System.out.println(h);
+		
+		System.out.println(" - - - - - - Remove: foo, lang and cool lang and check for null");
+		h.remove("foo");
+		System.out.println(h.get("foo"));
+		h.remove("lang");
+		System.out.println(h.get("lang"));
+		h.remove("cool lang");
+		System.out.println(h.get("cool lang"));
+		h.remove("cool lang");
+		System.out.println(h.get("cool lang"));
 
 		System.out.println(" - - - - - - Printing out");
 		System.out.println(h);
