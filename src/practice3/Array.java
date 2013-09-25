@@ -1,24 +1,24 @@
 package practice3;
 
 /**
- * Created with IntelliJ IDEA. Continued with Eclipse. 
- * by E. Shevchenko 
+ * Created with IntelliJ IDEA. Continued with Eclipse. by E. Shevchenko
  * 
  */
-public class Array {
+public class Array<E> {
 
-	private Object[] array;
+	private E[] array;
 
-	/**
+	/**************************************************************************
 	 * Constructor
 	 * 
 	 * @param size
 	 */
+	@SuppressWarnings("unchecked")
 	public Array(int size) {
-		array = new Object[size];
+		array = (E[]) new Object[size];
 	}
 
-	/**
+	/**************************************************************************
 	 * Returns size
 	 * 
 	 * @return
@@ -27,7 +27,7 @@ public class Array {
 		return array.length;
 	}
 
-	/**
+	/**************************************************************************
 	 * Check whether the index is within array boundaries
 	 * 
 	 * @param index
@@ -37,29 +37,29 @@ public class Array {
 		return index < array.length && index >= 0;
 	}
 
-	/**
+	/**************************************************************************
 	 * If index is within array boundary, returns Element at specified index,
 	 * otherwise returns null
 	 * 
 	 * @param index
 	 * @return
 	 */
-	public Object getElement(int index) {
+	public E getElement(int index) {
 		if (indexOK(index)) {
-			return array[index];
+			return (E) array[index];
 		}
 		return null;
 	}
 
-	/**
-	 * If index is within array boundary, places specified Element at specified
+	/**************************************************************************
+	 * If index is within array boundary, places specified element at specified
 	 * position and returns true, otherwise returns false
 	 * 
 	 * @param index
 	 * @param element
 	 * @return
 	 */
-	public boolean setElement(int index, Object element) {
+	public boolean setElement(int index, E element) {
 		if (indexOK(index)) {
 			array[index] = element;
 			return true;
@@ -67,6 +67,22 @@ public class Array {
 		return false;
 	}
 
+	/**************************************************************************
+	 * Change capacity by the passed number (may be negative)
+	 * 
+	 * @param number
+	 */
+	@SuppressWarnings("unchecked")
+	public void changeCapacityBy(int number) {
+		int newSize = array.length + number;
+		E[] temparray = (E[]) new Object[newSize];
+		System.arraycopy(array, 0, temparray, 0, array.length > newSize ? newSize : array.length);
+		array = temparray;
+	}
+
+	/**************************************************************************
+	 * Returns String
+	 */
 	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();

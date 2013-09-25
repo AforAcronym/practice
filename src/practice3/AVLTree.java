@@ -2,20 +2,21 @@ package practice3;
 
 /**
  * Self-balancing Binary Search Tree using “Adelson-Velsky and Landis”
- * algorithm. Right child is
+ * algorithm. Right child is always bigger than its parent and left child is
+ * always smaller.
  * 
  */
-public class AVLTree<T extends Comparable<?>> {
+public class AVLTree<E extends Comparable<E>> {
 
-	private int capacityDegree = 5;
-	private Object[] array;
+	private int capacityLayers = 5;
+	private Array<E> array;
 	private int currentSize = 0;
 
 	/**************************************************************************
 	 * Constructor
 	 */
 	public AVLTree() {
-		array = new Object[(int) (Math.pow(2, capacityDegree) - 1)];
+		array = new Array<E>((int) (Math.pow(2, capacityLayers) - 1));
 	}
 
 	/**************************************************************************
@@ -25,7 +26,7 @@ public class AVLTree<T extends Comparable<?>> {
 	 *            number of the tree levels as initial capacityDegree
 	 */
 	public AVLTree(final int numOfLevels) {
-		array = new Object[(int) (Math.pow(2, numOfLevels) - 1)];
+		array = new Array<E>((int) (Math.pow(2, numOfLevels) - 1));
 	}
 
 	/**************************************************************************
@@ -33,33 +34,33 @@ public class AVLTree<T extends Comparable<?>> {
 	 * 
 	 * @param element
 	 */
-	public void put(T element) {
+	public void put(E element) {
 
 		int index = 0;
 		boolean added = false;
 
 		while (!added) {
-
-			if (array[index] == null) {
-				array[index] = element;
+			
+			// #1
+			// To set or not to set...
+			if (array.getElement(index) == null) {
+				array.setElement(index, element);
 				added = true;
+				// NO break ! See #3
 			}
-
-<<<<<<< HEAD
-			if (element.compareTo(array[index]) < 0) {
-=======
-			if (element.compareTo((T) array[index]) < 0) {
->>>>>>> AVLgeneric
+			
+			// #2
+			// Choose between left and right positions, increasing the index
+			if (array.getElement(index).compareTo(element) < 0) {
 				index = 2 * index + 1;
 			} else {
 				index = 2 * index + 2;
 			}
 
-<<<<<<< HEAD
-			if (index > array.length) {
-=======
-			if (index >= array.length) {
->>>>>>> AVLgeneric
+			// #3
+			// If there is no break in #1 the capacity is increased for the next
+			// layer due to #2 and new element can be safely added
+			if (index >= array.getSize()) {
 				addCapacityLayer();
 			}
 		}
@@ -72,12 +73,11 @@ public class AVLTree<T extends Comparable<?>> {
 	}
 
 	/**************************************************************************
-	 * Add capacityDegree layer for the tree
+	 * Add capacity layer for the tree
 	 */
 	private void addCapacityLayer() {
-		capacityDegree++;
-		Object temparray[] = new Object[(int) Math.pow(2, capacityDegree) - 1];
-		System.arraycopy(array, 0, temparray, 0, array.length);
+		array.changeCapacityBy( (int) Math.pow(2, capacityLayers) );
+		capacityLayers++;
 	}
 
 	/**************************************************************************
@@ -87,10 +87,35 @@ public class AVLTree<T extends Comparable<?>> {
 	 * @return
 	 */
 	private int height(final int index) {
-		if (array.length <= 2 * index) {
+		
+		// Left and right children indices
+		int childIndex_l = index * 2 + 1;
+		int childIndex_r = index * 2 + 2;
+
+		boolean childIsNull_l = (array.getElement(index * 2 + 1) == null);
+		boolean childIsNull_r = (array.getElement(index * 2 + 2) == null);
+		
+		// The index is valid but the node is null
+		if (index < array.getSize() && array.getElement(index) == null) {
+			return 0;
+		}
+		
+		// The current node's children do not exist
+		if (array.getSize() <= 2 * index || (childIsNull_l && childIsNull_r) ) {
 			return 1; // or 0?
 		}
-		return 1 + Math.max(height(index * 2 + 1), height(index * 2 + 2));
+		
+		// No left (lesser) child
+		if (childIsNull_l) {
+			return 1 + height(childIndex_r);
+		}
+		
+		// No right (bigger) child		
+		if (childIsNull_r) {
+			return 1 + height(childIndex_l);
+		}
+		
+		return 1 + Math.max(height(childIndex_l), height(childIndex_r));
 	}
 
 	/**************************************************************************
@@ -104,6 +129,9 @@ public class AVLTree<T extends Comparable<?>> {
 	 * Rebalance the AVL Tree
 	 */
 	private void rebalance() {
+		// TODO
+		// private void rotateRight
+		// private void rotateLeft
 	}
 
 	/**************************************************************************
