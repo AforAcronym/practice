@@ -1,29 +1,31 @@
 package practice3;
 
 /**
- * Self-balancing Binary Search Tree using “Adelson-Velsky and Landis” algorithm
+ * Self-balancing Binary Search Tree using “Adelson-Velsky and Landis”
+ * algorithm. Right child is
+ * 
  */
-public class AVLTree {
+public class AVLTree<T extends Comparable<?>> {
 
-	private static final int INITIAL_CAPACITY_DEGREE = 5;
-	private Node[] array;
+	private int capacityDegree = 5;
+	private Object[] array;
 	private int currentSize = 0;
 
 	/**************************************************************************
 	 * Constructor
 	 */
 	public AVLTree() {
-		array = new Node[(int) (Math.pow(2, INITIAL_CAPACITY_DEGREE) - 1)];
+		array = new Object[(int) (Math.pow(2, capacityDegree) - 1)];
 	}
 
 	/**************************************************************************
 	 * Constructor
 	 * 
 	 * @param numOfLevels
-	 *            number of the tree levels as initial capacity
+	 *            number of the tree levels as initial capacityDegree
 	 */
 	public AVLTree(final int numOfLevels) {
-		array = new Node[(int) (Math.pow(2, numOfLevels) - 1)];
+		array = new Object[(int) (Math.pow(2, numOfLevels) - 1)];
 	}
 
 	/**************************************************************************
@@ -31,9 +33,43 @@ public class AVLTree {
 	 * 
 	 * @param element
 	 */
-	public void put(Object element) {
+	public void put(T element) {
+
+		int index = 0;
+		boolean added = false;
+
+		while (!added) {
+
+			if (array[index] == null) {
+				array[index] = element;
+				added = true;
+			}
+
+			if (element.compareTo((T) array[index]) < 0) {
+				index = 2 * index + 1;
+			} else {
+				index = 2 * index + 2;
+			}
+
+			if (index >= array.length) {
+				addCapacityLayer();
+			}
+		}
+
+		if (needRebalance()) {
+			rebalance();
+		}
 
 		currentSize++;
+	}
+
+	/**************************************************************************
+	 * Add capacityDegree layer for the tree
+	 */
+	private void addCapacityLayer() {
+		capacityDegree++;
+		Object temparray[] = new Object[(int) Math.pow(2, capacityDegree) - 1];
+		System.arraycopy(array, 0, temparray, 0, array.length);
 	}
 
 	/**************************************************************************
@@ -50,10 +86,16 @@ public class AVLTree {
 	}
 
 	/**************************************************************************
+	 * Check if the tree needs rebalancing
+	 */
+	private boolean needRebalance() {
+		return (Math.abs(height(1) - height(2)) > 1);
+	}
+
+	/**************************************************************************
 	 * Rebalance the AVL Tree
 	 */
 	private void rebalance() {
-
 	}
 
 	/**************************************************************************
@@ -65,38 +107,4 @@ public class AVLTree {
 		return new Vector(0);
 	}
 
-	/**************************************************************************
-	 * The AVL tree node class
-	 * 
-	 */
-	private class Node {
-
-		// private Node parent;
-		// private Node leftChild;
-		// private Node rightChild;
-
-		private int subTreeSize = 0;
-		private Object obj;
-
-		public Node(Object _obj) {
-			obj = _obj;
-		}
-
-		public int getSubTreeSize() {
-			return subTreeSize;
-		}
-
-		public void setSubTreeSize(int subTreeSize) {
-			this.subTreeSize = subTreeSize;
-		}
-
-		public Object getObj() {
-			return obj;
-		}
-
-		public void setObj(Object obj) {
-			this.obj = obj;
-		}
-
-	}
 }
