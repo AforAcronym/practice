@@ -207,7 +207,7 @@ public class CollectionsTest {
 		System.out.println();
 		Benchmark.LinkedListComparison(10000);
 		System.out.println();
-		// Benchmark.LinkedListComparison(100000);
+		 Benchmark.LinkedListComparison(50000);
 		// System.out.println();
 		// Benchmark.LinkedListComparison(200000);
 		// System.out.println();
