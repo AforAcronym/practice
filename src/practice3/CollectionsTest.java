@@ -16,7 +16,7 @@ public class CollectionsTest {
 		String obj7 = "CREW";
 		String obj8 = "x-x-x";
 
-		Array myArray = new Array(5);
+		Array<Comparable<?>> myArray = new Array<Comparable<?>>(5);
 		myArray.setElement(0, obj0);
 		myArray.setElement(1, obj1);
 		myArray.setElement(4, obj2);
