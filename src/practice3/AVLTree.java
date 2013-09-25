@@ -45,13 +45,21 @@ public class AVLTree<T extends Comparable<?>> {
 				added = true;
 			}
 
+<<<<<<< HEAD
 			if (element.compareTo(array[index]) < 0) {
+=======
+			if (element.compareTo((T) array[index]) < 0) {
+>>>>>>> AVLgeneric
 				index = 2 * index + 1;
 			} else {
 				index = 2 * index + 2;
 			}
 
+<<<<<<< HEAD
 			if (index > array.length) {
+=======
+			if (index >= array.length) {
+>>>>>>> AVLgeneric
 				addCapacityLayer();
 			}
 		}
