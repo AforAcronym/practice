@@ -79,6 +79,17 @@ public class Array<E> {
 		System.arraycopy(array, 0, temparray, 0, array.length > newSize ? newSize : array.length);
 		array = temparray;
 	}
+	
+	/**************************************************************************
+	 * Change capacity by the passed number (may be negative)
+	 * 
+	 * @param number
+	 */
+	public Array<E> getCopy() {
+		Array<E> newArr = new Array<E>(array.length);
+		System.arraycopy(array, 0, newArr.array, 0, array.length);
+		return newArr;
+	}
 
 	/**************************************************************************
 	 * Returns String
