@@ -5,17 +5,17 @@ package practice3;
  * change this template use File | Settings | File Templates.
  */
 public class CollectionsTest {
-	public static void main(String[] args) {
 
-		Double obj0 = new Double(0.98765);
-		String obj1 = new String("pew pew");
-		Float obj2 = new Float(2.63234);
-		Boolean obj3 = new Boolean("true");
-		String obj4 = "Ololo";
-		String obj5 = "The Fifth";
-		String obj7 = "CREW";
-		String obj8 = "x-x-x";
+	static Double obj0 = new Double(0.98765);
+	static String obj1 = new String("pew pew");
+	static Float obj2 = new Float(2.63234);
+	static Boolean obj3 = new Boolean("true");
+	static String obj4 = "Ololo";
+	static String obj5 = "The Fifth";
+	static String obj7 = "CREW";
+	static String obj8 = "x-x-x";
 
+	public static void testArray() {
 		Array<Comparable<?>> myArray = new Array<Comparable<?>>(5);
 		myArray.setElement(0, obj0);
 		myArray.setElement(1, obj1);
@@ -23,9 +23,9 @@ public class CollectionsTest {
 
 		System.out.println(myArray);
 		System.out.println("Array size: " + myArray.getSize());
+	}
 
-		System.out.println("===============================");
-
+	public static void testVector() {
 		Vector vec = new Vector(5);
 		vec.addElement(obj0);
 		vec.addElement(obj1);
@@ -71,9 +71,9 @@ public class CollectionsTest {
 		vec.removeAt(6);
 		System.out.println(vec);
 		System.out.println("practice3.Vector size: " + vec.getCurrentSize());
+	}
 
-		System.out.println("===============================");
-
+	public static void testLinkedList() {
 		LinkedList llst = new LinkedList();
 		// LinkedListFromArray llst = new LinkedListFromArray();
 		llst.addLast(obj0);
@@ -196,8 +196,10 @@ public class CollectionsTest {
 		System.out.println("Size: " + llst.getSize());
 
 		llst.testCoherence();
+	}
 
-		System.out.println("===============================");
+	public static void LLbench() {
+
 		System.out.println("LinkedList vs LinkedListfromArray");
 		Benchmark.LinkedListComparison(10);
 		System.out.println();
@@ -207,13 +209,15 @@ public class CollectionsTest {
 		System.out.println();
 		Benchmark.LinkedListComparison(10000);
 		System.out.println();
-		 Benchmark.LinkedListComparison(50000);
+		Benchmark.LinkedListComparison(50000);
 		// System.out.println();
 		// Benchmark.LinkedListComparison(200000);
 		// System.out.println();
 		// Benchmark.LinkedListComparison(10000000);
 
-		System.out.println("===============================");
+	}
+
+	public static void testStack() {
 		Stack st = new Stack();
 		System.out.println(" - - - - - - Push " + obj0);
 		st.push(obj0);
@@ -240,12 +244,13 @@ public class CollectionsTest {
 		System.out.println(st);
 		System.out.println(" - - - - - - Pop: " + st.pop());
 		System.out.println(st);
+	}
 
-		System.out.println("===============================");
+	public static void testHashTable() {
 		HashtableNaive h = new HashtableNaive();
 		System.out.println(" - - - - - - Printing out new HashtableNaive");
 		System.out.println(h);
-		
+
 		System.out.println(" - - - - - - Put: yolo → swag");
 		h.put("yolo", "swag");
 		System.out.println(h);
@@ -261,7 +266,7 @@ public class CollectionsTest {
 		System.out.println(" - - - - - - Put: cool lang → perl");
 		h.put("cool lang", "perl");
 		System.out.println(h);
-		
+
 		System.out.println(" - - - - - - Get: foo");
 		System.out.println(h.get("foo"));
 		System.out.println(" - - - - - - Get: yolo");
@@ -271,28 +276,28 @@ public class CollectionsTest {
 
 		System.out.println(" - - - - - - Printing out");
 		System.out.println(h);
-		
+
 		System.out.println(" - - - - - - Set: pewpew => bzzzz");
 		h.put("pewpew", "bzzzz");
 		System.out.println(h.get("pewpew"));
 
 		System.out.println(" - - - - - - Printing out");
 		System.out.println(h);
-		
+
 		System.out.println(" - - - - - - Remove: pewpew and check for null");
 		h.remove("pewpew");
 		System.out.println(h.get("pewpew"));
 
 		System.out.println(" - - - - - - Printing out");
 		System.out.println(h);
-		
+
 		System.out.println(" - - - - - - Remove: yolo and check for null");
 		h.remove("yolo");
 		System.out.println(h.get("yolo"));
 
 		System.out.println(" - - - - - - Printing out");
 		System.out.println(h);
-		
+
 		System.out.println(" - - - - - - Remove: foo, lang and cool lang and check for null");
 		h.remove("foo");
 		System.out.println(h.get("foo"));
@@ -305,6 +310,74 @@ public class CollectionsTest {
 
 		System.out.println(" - - - - - - Printing out");
 		System.out.println(h);
+	}
+
+	public static void main(String[] args) {
+
+		// testArray();
+		// System.out.println("===============================");
+		//
+		// testVector();
+		// System.out.println("===============================");
+		//
+		// testLinkedList();
+		// System.out.println("===============================");
+		//
+		// LLbench();
+		// System.out.println("===============================");
+		//
+		// testStack();
+		// System.out.println("===============================");
+		//
+		// testHashTable();
+		// System.out.println("==================================");
+
+		System.out.println("TREE TREE TREE TREE TREE TREE TREE");
+
+		AVLTree<Double> tree = new AVLTree<Double>();
+		tree.put(7d);
+		System.out.println(tree);
+		tree.put(2d);
+		System.out.println(tree);
+		tree.put(13d);
+		System.out.println(tree);
+		tree.put(3.14);
+		System.out.println(tree);
+		tree.put(12d);
+		System.out.println(tree);
+		tree.put(1d);
+		System.out.println(tree);
+		tree.put(6.9);
+		System.out.println(tree);
+		tree.put(4d);
+		System.out.println(tree);
+		// --- rebalance ---
+//		tree.put(5d);
+//		System.out.println(tree);
+//		tree.put(5d);
+//		System.out.println(tree);
+//		tree.put(7d);
+//		System.out.println(tree);
+//		tree.put(20d);
+//		System.out.println(tree);
+//		tree.put(21d);
+//		System.out.println(tree);
+//		tree.put(22d);
+//		System.out.println(tree);
+//		tree.put(23d);
+//		System.out.println(tree);
+//		tree.put(24d);
+//		System.out.println(tree);
+//		tree.put(25d);
+//		System.out.println(tree);
+//		tree.put(26d);
+//		System.out.println(tree);
+//		tree.put(27d);
+//		System.out.println(tree);
+//		tree.put(28d);
+//		System.out.println(tree);
+//		tree.put(29d);
+//		System.out.println(tree);
 
 	}
 }
