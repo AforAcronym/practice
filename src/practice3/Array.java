@@ -7,6 +7,7 @@ package practice3;
 public class Array<E> {
 
 	private E[] array;
+	int lastPos = 0;
 
 	/**************************************************************************
 	 * Constructor
@@ -62,6 +63,16 @@ public class Array<E> {
 	public boolean setElement(int index, E element) {
 		if (indexOK(index)) {
 			array[index] = element;
+			if (index > lastPos && element != null) {
+				lastPos = index;
+			} else if ( index == lastPos && element == null ) {
+				for (int i = lastPos; i > 0; --i) {
+					if (array[i] != null) { 
+						lastPos = i;
+						break;
+					}
+				}
+			}
 			return true;
 		}
 		return false;
@@ -89,6 +100,13 @@ public class Array<E> {
 		Array<E> newArr = new Array<E>(array.length);
 		System.arraycopy(array, 0, newArr.array, 0, array.length);
 		return newArr;
+	}
+	
+	/**************************************************************************
+	 * Returns String
+	 */
+	public int getLastPosition() {
+		return lastPos;
 	}
 
 	/**************************************************************************

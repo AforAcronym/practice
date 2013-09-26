@@ -8,6 +8,7 @@ package practice3;
  */
 public class AVLTree<E extends Comparable<E>> {
 
+	// Number of layers in capacity of the tree
 	private int capacityLayers = 5;
 	private Array<E> array;
 	private int currentSize = 0;
@@ -28,26 +29,26 @@ public class AVLTree<E extends Comparable<E>> {
 	public AVLTree(final int numOfLevels) {
 		array = new Array<E>((int) (Math.pow(2, numOfLevels) - 1));
 	}
-	
+
 	/**************************************************************************
-	 * Index of the left child for the current index in the inner array 
+	 * Index of the left child for the current index in the inner array
 	 */
 	private int getLeftChildIndex(final int index) {
 		return 2 * index + 1;
 	}
-	
+
 	/**************************************************************************
 	 * Index of the right child for the current index in the inner array
 	 */
 	private int getRightChildIndex(final int index) {
 		return 2 * index + 2;
 	}
-	
+
 	/**************************************************************************
 	 * Index of the parent node for the current index in the inner array
 	 */
 	private int getParentIndex(final int index) {
-		return (index % 2 == 0) ? (index-2)/2 : (index-1)/2 ;
+		return (index % 2 == 0) ? (index - 2) / 2 : (index - 1) / 2;
 	}
 
 	/**************************************************************************
@@ -86,10 +87,7 @@ public class AVLTree<E extends Comparable<E>> {
 			}
 		}
 
-		if (needRebalance()) {
-			rebalance();
-		}
-
+		rebalance();
 		currentSize++;
 	}
 
@@ -116,23 +114,21 @@ public class AVLTree<E extends Comparable<E>> {
 		boolean childIsNull_l = (array.getElement(childIndex_l) == null);
 		boolean childIsNull_r = (array.getElement(childIndex_r) == null);
 
-		// The index is valid but the node is null
 		if (index < array.getSize() && array.getElement(index) == null) {
+			// The index is valid but the node is null
 			return 0;
 		}
 
-		// The current node's children do not exist
 		if (array.getSize() <= 2 * index || (childIsNull_l && childIsNull_r)) {
+			// The current node's children do not exist
 			return 1; // or 0?
 		}
 
-		// No left (lesser) child
-		if (childIsNull_l) {
+		if (childIsNull_l) { // No left (lesser) child
 			return 1 + height(childIndex_r);
 		}
 
-		// No right (bigger) child
-		if (childIsNull_r) {
+		if (childIsNull_r) { // No right (bigger) child
 			return 1 + height(childIndex_l);
 		}
 
@@ -147,45 +143,81 @@ public class AVLTree<E extends Comparable<E>> {
 	}
 
 	/**************************************************************************
+	 * Get number of the layer for passed index in the inner array
+	 * 
+	 * @param index
+	 */
+	private int getLayerFromIndex(final int index) {
+		int layer = 0;
+		while (index > Math.pow(2, layer) - 1) {
+			layer++;
+		}
+		return layer + 1;
+	}
+
+	/**************************************************************************
 	 * Rebalance the AVL Tree
 	 */
 	private void rebalance() {
-		// TODO
+		// Fictitious names for now
+		int leftIndex = 0;
+		int rightIndex = 0;
+		int seconParentFromTheEnd = getParentIndex(getParentIndex(array.getLastPosition()));
+		
+		while (needRebalance()) {
+			
+			seconParentFromTheEnd = getParentIndex(getParentIndex(array.getLastPosition()));
+			leftIndex = getLeftChildIndex( seconParentFromTheEnd);
+			rightIndex = getRightChildIndex( seconParentFromTheEnd);
+			
+			if (height(leftIndex) - height(rightIndex) < -1) {
+				// Left sub-tree is shorter
+				if (array.getElement(rightIndex) == null) {
+					rotateRight(getParentIndex(leftIndex));
+				}
+			} else if (height(leftIndex) - height(rightIndex) > 1) {
+				// Left sub-tree is longer
+				if (array.getElement(leftIndex) == null) {
+					rotateLeft(getParentIndex(rightIndex));
+				}
+			}
+		}
 	}
 
 	/**************************************************************************
 	 * Rotate left at index
 	 * 
 	 * @param index
-	 *            index of the current root that will be moved to his right child
-	 *            position and replaced with his left child
+	 *            index of the current root that will be moved to his right
+	 *            child position and replaced with his left child
 	 */
-	private void rotateRight(final int index) {Array<E> newArray = array.getCopy();
-	
-	// Old Root is at the passed index
-	E oldRoot = array.getElement(index);
-	
-	// New root is the left child of Old Root
-	E newRoot = array.getElement(getLeftChildIndex(index));
-	
-	// Move right child of Old Root down left
-	shiftLeaf(getRightChildIndex(index), getRightChildIndex(getRightChildIndex(index)), newArray);
-	
-	// Move Old Root down right
-	newArray.setElement(getRightChildIndex(index), oldRoot);
-	
-	// Move New Root to the root place (at index)
-	newArray.setElement(index, newRoot);
-	
-	// Move New Root's left leaf up to him
-	shiftLeaf(getLeftChildIndex(getLeftChildIndex(index)), getLeftChildIndex(index), newArray);
-	
-	// Move New Root's right leaf to Old Root's leftleaf position
-	shiftLeafAside( getRightChildIndex(getLeftChildIndex(index)), getLeftChildIndex(getRightChildIndex(index)), newArray, 1);
-	
-	array = newArray;
-		
-                                                                                                                                                                                                                                  
+	private void rotateRight(final int index) {
+
+		Array<E> newArray = array.getCopy();
+
+		// Old Root is at the passed index
+		E oldRoot = array.getElement(index);
+
+		// New root is the left child of Old Root
+		E newRoot = array.getElement(getLeftChildIndex(index));
+
+		// Move right child of Old Root down left
+		shiftLeaf(getRightChildIndex(index), getRightChildIndex(getRightChildIndex(index)), newArray);
+
+		// Move Old Root down right
+		newArray.setElement(getRightChildIndex(index), oldRoot);
+
+		// Move New Root to the root place (at index)
+		newArray.setElement(index, newRoot);
+
+		// Move New Root's left leaf up to him
+		shiftLeaf(getLeftChildIndex(getLeftChildIndex(index)), getLeftChildIndex(index), newArray);
+
+		// Move New Root's right leaf to Old Root's leftleaf position
+		shiftLeafAside(getRightChildIndex(getLeftChildIndex(index)), getLeftChildIndex(getRightChildIndex(index)), newArray, 1);
+
+		array = newArray;
+
 	}
 
 	/**************************************************************************
@@ -197,31 +229,31 @@ public class AVLTree<E extends Comparable<E>> {
 	 */
 	private void rotateLeft(final int index) {
 		Array<E> newArray = array.getCopy();
-		
+
 		// Old Root is at the passed index
 		E oldRoot = array.getElement(index);
-		
+
 		// New root is the right child of Old Root
 		E newRoot = array.getElement(getRightChildIndex(index));
-		
+
 		// Move left child of Old Root down left
 		shiftLeaf(getLeftChildIndex(index), getLeftChildIndex(getLeftChildIndex(index)), newArray);
-		
+
 		// Move Old Root down left
 		newArray.setElement(getLeftChildIndex(index), oldRoot);
-		
+
 		// Move New Root to the root place (at index)
 		newArray.setElement(index, newRoot);
-		
+
 		// Move New Root's right leaf up to him
 		shiftLeaf(getRightChildIndex(getRightChildIndex(index)), getRightChildIndex(index), newArray);
-		
+
 		// Move New Root's left leaf to Old Root's right leaf position
-		shiftLeafAside( getLeftChildIndex(getRightChildIndex(index)), getRightChildIndex(getLeftChildIndex(index)), newArray, 1);
-		
+		shiftLeafAside(getLeftChildIndex(getRightChildIndex(index)), getRightChildIndex(getLeftChildIndex(index)), newArray, 1);
+
 		array = newArray;
 	}
-	
+
 	/**************************************************************************
 	 * Shifting a leaf down or up depending on specified root's fromIndex and
 	 * destIndex (made by recursion)
@@ -236,11 +268,19 @@ public class AVLTree<E extends Comparable<E>> {
 	private void shiftLeaf(final int fromIndex, final int destIndex, Array<E> newArray) {
 		if (Math.min(fromIndex, destIndex) < array.getSize()) {
 			newArray.setElement(destIndex, array.getElement(fromIndex));
-			shiftLeaf(getLeftChildIndex(fromIndex), getLeftChildIndex(destIndex), newArray);
-			shiftLeaf(getRightChildIndex(fromIndex), getRightChildIndex(destIndex), newArray);
+			
+			if (	!(	array.getElement(getLeftChildIndex(fromIndex)) == null 
+					&&  array.getElement(getLeftChildIndex(destIndex)) == null)) {
+				shiftLeaf(getLeftChildIndex(fromIndex), getLeftChildIndex(destIndex), newArray);
+			}
+			
+			if (	!(	array.getElement(getRightChildIndex(fromIndex)) == null 
+					&&  array.getElement(getRightChildIndex(destIndex)) == null)) {
+				shiftLeaf(getRightChildIndex(fromIndex), getRightChildIndex(destIndex), newArray);
+			}
 		}
 	}
-	
+
 	/**************************************************************************
 	 * Shifting a leaf left or right depending on specified root's fromIndex and
 	 * destIndex (made by recursion)
