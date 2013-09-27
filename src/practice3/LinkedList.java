@@ -3,10 +3,10 @@ package practice3;
 /**
  * 
  */
-public class LinkedList {
+public class LinkedList<E> {
 
-	private LinkedElement first = null;
-	private LinkedElement last = null;
+	private LinkedElement<E> first = null;
+	private LinkedElement<E> last = null;
 	private int total;
 
 	/**
@@ -31,9 +31,9 @@ public class LinkedList {
 	/**
 	 * Add an element at the end of this List
 	 */
-	public void addLast(Object element) {
+	public void addLast(E element) {
 
-		LinkedElement elem = new LinkedElement(element);
+		LinkedElement<E> elem = new LinkedElement<E>(element);
 
 		elem.setPrev(last);
 		elem.setNext(null);
@@ -51,8 +51,8 @@ public class LinkedList {
 	/**
 	 * Add an element at the beginning of this List
 	 */
-	public void addFirst(Object element) {
-		LinkedElement elem = new LinkedElement(element);
+	public void addFirst(E element) {
+		LinkedElement<E> elem = new LinkedElement<E>(element);
 		elem.setPrev(null);
 		elem.setNext(first);
 		if (total == 0) {
@@ -92,10 +92,10 @@ public class LinkedList {
 	 * @param index
 	 * @return
 	 */
-	private LinkedElement findElement(int index) {
+	private LinkedElement<E> findElement(int index) {
 		if (indexOK(index)) {
 
-			LinkedElement elem = first;
+			LinkedElement<E> elem = first;
 			int counter = 0;
 
 			// Choose a way to find
@@ -124,10 +124,10 @@ public class LinkedList {
 
 		if (indexOK(index)) {
 
-			LinkedElement elem = findElement(index);
+			LinkedElement<E> elem = findElement(index);
 
-			LinkedElement prev = elem.getPrev();
-			LinkedElement next = elem.getNext();
+			LinkedElement<E> prev = elem.getPrev();
+			LinkedElement<E> next = elem.getNext();
 
 			if (prev != null) {
 				prev.setNext(next);
@@ -151,8 +151,10 @@ public class LinkedList {
 
 	// if index is within array boundary, inserts an element at
 	// specified index and returns true, otherwise returns false
-	public boolean insertAt(int index, Object element) {
-		LinkedElement oldElem = findElement(index);
+	public boolean insertAt(int index, E element) {
+		
+		LinkedElement<E> oldElem = findElement(index);
+		
 		if (index == total) {
 			addLast(element); // increments total
 			return true;
@@ -164,8 +166,8 @@ public class LinkedList {
 		}
 
 		if (oldElem != null) {
-			LinkedElement newElem = new LinkedElement(element);
-			LinkedElement prev = oldElem.getPrev();
+			LinkedElement<E> newElem = new LinkedElement<E>(element);
+			LinkedElement<E> prev = oldElem.getPrev();
 
 			newElem.setPrev(prev);
 			prev.setNext(newElem);
@@ -182,7 +184,7 @@ public class LinkedList {
 	// If index is within array boundary, returns Element
 	// at specified index, otherwise returns null
 	public Object getElement(int index) {
-		LinkedElement elem = findElement(index);
+		LinkedElement<E> elem = findElement(index);
 		if (elem != null) {
 			return elem.getObj();
 		}
@@ -192,8 +194,8 @@ public class LinkedList {
 
 	// if index is within array boundary, places specified Element
 	// at specified position and returns true, otherwise returns false
-	public boolean setElement(int index, Object element) {
-		LinkedElement elem = findElement(index);
+	public boolean setElement(int index, E element) {
+		LinkedElement<E> elem = findElement(index);
 		if (elem != null) {
 			elem.setObj(element);
 			return true;
@@ -204,7 +206,7 @@ public class LinkedList {
 	// returns a practice3.Vector containing elements of this List
 	public Vector toVector() {
 		Vector vec = new Vector(last.getIndex() + 1);
-		LinkedElement elem = first;
+		LinkedElement<E> elem = first;
 		for (int i = 0; i <= last.getIndex(); i++) {
 			vec.addElement(elem);
 			elem = elem.getNext();
@@ -214,14 +216,13 @@ public class LinkedList {
 
 	public String toString() {
 		int endIndex = 0;
-		LinkedElement elem = first;
+		LinkedElement<?> elem = first;
 		StringBuffer sb = new StringBuffer();
 		for (int j = 0; j < total; j++) {
 			for (int i = 0; i < endIndex; i++) {
 				elem = elem.getNext();
 			}
-			sb.append("LinkedList[" + j + "] = " + elem + "\t(finder: "
-					+ findElement(j) + ")");
+			sb.append("LinkedList[" + j + "] = " + elem + "\t(finder: " + findElement(j) + ")");
 			if (j < total - 1) {
 				sb.append("\n");
 			}
@@ -234,8 +235,7 @@ public class LinkedList {
 	public String toInfoString() {
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < total; i++) {
-			sb.append("LinkedList[" + i + "] = "
-					+ findElement(i).toInfoString());
+			sb.append("LinkedList[" + i + "] = " + findElement(i).toInfoString());
 			if (i < total - 1) {
 				sb.append("\n");
 			}
@@ -251,8 +251,8 @@ public class LinkedList {
 	 * Coherence testing method prints the test result
 	 */
 	public void testCoherence() {
-		LinkedElement elemf = first;
-		LinkedElement elemb = last;
+		LinkedElement<E> elemf = first;
+		LinkedElement<E> elemb = last;
 		for (int i = 1; i < total; i++) {
 			System.out.println(elemf + "\t|  " + elemb);
 			elemf = elemf.getNext();
@@ -260,8 +260,7 @@ public class LinkedList {
 
 		}
 		System.out.println(elemf + "\t| " + elemb);
-		System.out.println("LL Coherence:\tforward: " + (elemf == last)
-				+ "\tbackward: " + (elemb == first));
+		System.out.println("LL Coherence:\tforward: " + (elemf == last) + "\tbackward: " + (elemb == first));
 
 	}
 

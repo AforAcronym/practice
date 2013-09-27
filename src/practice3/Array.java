@@ -102,6 +102,18 @@ public class Array<E> {
 	}
 	
 	/**************************************************************************
+	 * Shifts array content adding or removing cells at the beginning
+	 */
+	private void shiftBy(int number) {
+		E[] temparr = (E[]) new Object[array.length + number];
+		int srcPos = (number > 0) ? 0 : number;
+		int destPos = (number > 0) ? number : 0;
+		int length = (number > 0) ? array.length : array.length - number;
+		System.arraycopy(array, srcPos, temparr, destPos, length);
+		array = temparr;
+	}
+	
+	/**************************************************************************
 	 * Returns String
 	 */
 	public int getLastPosition() {

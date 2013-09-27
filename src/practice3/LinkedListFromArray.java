@@ -1,14 +1,14 @@
 package practice3;
 
-public class LinkedListFromArray {
+public class LinkedListFromArray<E> {
 
-	private Object[] array;;
+	private E[] array;
 
 	/**
 	 * Constructor
 	 */
 	public LinkedListFromArray() {
-		array = new Object[0];
+		array = (E[]) new Object[0];
 	}
 
 	/**
@@ -28,7 +28,7 @@ public class LinkedListFromArray {
 	 * @return
 	 */
 	private void expandArrayCapacityBy(int number) {
-		Object[] temparr = new Object[array.length + number];
+		E[] temparr = (E[]) new Object[array.length + number];
 		System.arraycopy(array, 0, temparr, 0, (number > 0) ? array.length
 				: array.length + number);
 		array = temparr;
@@ -37,7 +37,7 @@ public class LinkedListFromArray {
 	/**
 	 * Add an element at the end of this List
 	 */
-	public void addLast(Object element) {
+	public void addLast(E element) {
 		expandArrayCapacityBy(1);
 		array[array.length - 1] = element;
 	}
@@ -46,7 +46,7 @@ public class LinkedListFromArray {
 	 * Shifts array content adding or removing cells at the beginning
 	 */
 	private void shiftArrayBy(int number) {
-		Object[] temparr = new Object[array.length + number];
+		E[] temparr = (E[]) new Object[array.length + number];
 		int srcPos = (number > 0) ? 0 : number;
 		int destPos = (number > 0) ? number : 0;
 		int length = (number > 0) ? array.length : array.length - number;
@@ -58,7 +58,7 @@ public class LinkedListFromArray {
 	/**
 	 * Add an element at the beginning of this List
 	 */
-	public void addFirst(Object element) {
+	public void addFirst(E element) {
 		shiftArrayBy(1);
 		array[0] = element;
 		// System.out.println(elem.toInfoString());
@@ -104,7 +104,7 @@ public class LinkedListFromArray {
 	 * @param element
 	 * @return
 	 */
-	public boolean insertAt(int index, Object element) {
+	public boolean insertAt(int index, E element) {
 		if (indexOK(index)) {
 			if (index == 0) { 
 				addFirst(element);
@@ -140,7 +140,7 @@ public class LinkedListFromArray {
 
 	// returns a practice3.Vector containing elements of this List
 	public Vector toVector() {
-		Vector vec = new Vector(array.length);
+		Vector<E> vec = new Vector<E>(array.length);
 		for (int i = 0; i < array.length; i++) {
 			vec.addElement(array[i]);
 		}

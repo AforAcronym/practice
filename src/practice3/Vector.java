@@ -3,9 +3,9 @@ package practice3;
 /**
  * Vector
  */
-public class Vector {
+public class Vector<E> {
 
-	private Object[] array;
+	private E[] array;
 	private int currentSize;
 
 	/**
@@ -15,7 +15,7 @@ public class Vector {
 	 */
 	public Vector(int initialCapacity) {
 		currentSize = 0;
-		array = new Object[initialCapacity];
+		array = (E[]) new Object[initialCapacity];
 	}
 
 	/**
@@ -33,7 +33,7 @@ public class Vector {
 	 * 
 	 * @param element
 	 */
-	public void addElement(Object element) {
+	public void addElement(E element) {
 		if (array.length > currentSize) {
 			array[currentSize] = element;
 			currentSize++;
@@ -52,7 +52,7 @@ public class Vector {
 	 */
 	private void changeVectorCapacityBy(int number) {
 		int newSize = array.length + number;
-		Object[] temparray = new Object[newSize];
+		E[] temparray = (E[]) new Object[newSize];
 		System.arraycopy(array, 0, temparray, 0, currentSize);
 		array = temparray;
 	}
@@ -119,7 +119,7 @@ public class Vector {
 
 	// if index is within array boundary, inserts an element at
 	// specified index and returns true, otherwise returns false
-	public boolean insertAt(int index, Object element) {
+	public boolean insertAt(int index, E element) {
 		if (indexWithinCurrentSize(index)) {
 			checkEnoughCapacity(1);
 			System.arraycopy(array, index, array, index + 1, currentSize
@@ -147,7 +147,7 @@ public class Vector {
 	// if index is within array boundary, places specified
 	// Element at specified position and returns true,
 	// otherwise returns false
-	public boolean setElement(int index, Object element) {
+	public boolean setElement(int index, E element) {
 		if (indexWithinCapacity(index)) {
 			array[index] = element;
 			return true;

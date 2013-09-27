@@ -1,15 +1,15 @@
 package practice3;
 
-public class Queue {
+public class Queue<E> {
 
-	LinkedList ll = new LinkedList();
+	LinkedList<E> ll = new LinkedList<E>();
 
 	/**
 	 * Puts an element at the end of this Queue
 	 * 
 	 * @param element
 	 */
-	public void put(Object element) {
+	public void put(E element) {
 		ll.addLast(element);
 	}
 

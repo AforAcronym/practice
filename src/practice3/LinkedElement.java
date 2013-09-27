@@ -4,38 +4,38 @@ package practice3;
  * Inner class for linked objects ;) This implementation is just for fun and
  * speed comparison.
  */
-public class LinkedElement {
-	private LinkedElement prev = null;
-	private LinkedElement next = null;
-	private Object obj = null;
+public class LinkedElement<T> {
+	private LinkedElement<T> prev = null;
+	private LinkedElement<T> next = null;
+	private T obj = null;
 	private int index;
 
 	// Constructor
-	public LinkedElement(Object obj) {
+	public LinkedElement(T obj) {
 		this.obj = obj;
 	}
 
-	public LinkedElement getPrev() {
+	public LinkedElement<T> getPrev() {
 		return prev;
 	}
 
-	public void setPrev(LinkedElement prevElem) {
+	public void setPrev(LinkedElement<T> prevElem) {
 		this.prev = prevElem;
 	}
 
-	public LinkedElement getNext() {
+	public LinkedElement<T> getNext() {
 		return next;
 	}
 
-	public void setNext(LinkedElement nextElem) {
+	public void setNext(LinkedElement<T> nextElem) {
 		this.next = nextElem;
 	}
 
-	public Object getObj() {
+	public T getObj() {
 		return obj;
 	}
 
-	public void setObj(Object obj) {
+	public void setObj(T obj) {
 		this.obj = obj;
 	}
 

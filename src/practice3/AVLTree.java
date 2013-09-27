@@ -372,7 +372,7 @@ public class AVLTree<E extends Comparable<E>> {
 			for(int i = index; i <= Math.pow(2, layerIndex) - 2; ++i) {
 				el = array.getElement(i);
 				if (el != null) {
-//					sb.append(el);
+					// sb.append(el);
 					sb.append(String.format(outFormat, el.toString()));
 				} else {
 					sb.append(nullElemHolder);
