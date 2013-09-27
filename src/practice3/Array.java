@@ -62,15 +62,14 @@ public class Array<E> {
 	 */
 	public boolean setElement(int index, E element) {
 		if (indexOK(index)) {
+			
 			array[index] = element;
+			
 			if (index > lastPos && element != null) {
 				lastPos = index;
 			} else if ( index == lastPos && element == null ) {
-				for (int i = lastPos; i > 0; --i) {
-					if (array[i] != null) { 
-						lastPos = i;
-						break;
-					}
+				while (array[lastPos] == null && lastPos > 0) {
+					--lastPos;
 				}
 			}
 			return true;
@@ -116,7 +115,7 @@ public class Array<E> {
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < array.length; i++) {
-			sb.append("practice3.Array[" + i + "] = " + array[i]);
+			sb.append("Array[" + i + "] = " + array[i]);
 			if (i < array.length - 1) {
 				sb.append("\n");
 			}

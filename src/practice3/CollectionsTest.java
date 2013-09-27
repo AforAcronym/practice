@@ -15,16 +15,39 @@ public class CollectionsTest {
 	static String obj7 = "CREW";
 	static String obj8 = "x-x-x";
 
+	/**************************************************************************
+	 * 
+	 */
 	public static void testArray() {
-		Array<Comparable<?>> myArray = new Array<Comparable<?>>(5);
-		myArray.setElement(0, obj0);
-		myArray.setElement(1, obj1);
-		myArray.setElement(4, obj2);
 
+		Array<Comparable<?>> myArray = new Array<Comparable<?>>(5);
+
+		myArray.setElement(0, obj0);
 		System.out.println(myArray);
+		System.out.println("Last position: " + myArray.getLastPosition());
+
+		myArray.setElement(1, obj1);
+		System.out.println(myArray);
+		System.out.println("Last position: " + myArray.getLastPosition());
+
+		myArray.setElement(4, obj2);
+		System.out.println(myArray);
+		System.out.println("Last position: " + myArray.getLastPosition());
+
+		myArray.setElement(3, obj2);
+		System.out.println(myArray);
+		System.out.println("Last position: " + myArray.getLastPosition());
+
+		myArray.setElement(4, null);
+		System.out.println(myArray);
+		System.out.println("Last position: " + myArray.getLastPosition());
+
 		System.out.println("Array size: " + myArray.getSize());
 	}
 
+	/**************************************************************************
+	 * 
+	 */
 	public static void testVector() {
 		Vector vec = new Vector(5);
 		vec.addElement(obj0);
@@ -73,6 +96,9 @@ public class CollectionsTest {
 		System.out.println("practice3.Vector size: " + vec.getCurrentSize());
 	}
 
+	/**************************************************************************
+	 * 
+	 */
 	public static void testLinkedList() {
 		LinkedList llst = new LinkedList();
 		// LinkedListFromArray llst = new LinkedListFromArray();
@@ -198,6 +224,9 @@ public class CollectionsTest {
 		llst.testCoherence();
 	}
 
+	/**************************************************************************
+	 * 
+	 */
 	public static void LLbench() {
 
 		System.out.println("LinkedList vs LinkedListfromArray");
@@ -217,6 +246,9 @@ public class CollectionsTest {
 
 	}
 
+	/**************************************************************************
+	 * 
+	 */
 	public static void testStack() {
 		Stack st = new Stack();
 		System.out.println(" - - - - - - Push " + obj0);
@@ -246,6 +278,9 @@ public class CollectionsTest {
 		System.out.println(st);
 	}
 
+	/**************************************************************************
+	 * 
+	 */
 	public static void testHashTable() {
 		HashtableNaive h = new HashtableNaive();
 		System.out.println(" - - - - - - Printing out new HashtableNaive");
@@ -332,52 +367,52 @@ public class CollectionsTest {
 		// testHashTable();
 		// System.out.println("==================================");
 
-		System.out.println("TREE TREE TREE TREE TREE TREE TREE");
-
-		AVLTree<Double> tree = new AVLTree<Double>();
-		tree.put(7d);
-		System.out.println(tree);
-		tree.put(2d);
-		System.out.println(tree);
-		tree.put(13d);
-		System.out.println(tree);
-		tree.put(3.14);
-		System.out.println(tree);
-		tree.put(12d);
-		System.out.println(tree);
-		tree.put(1d);
-		System.out.println(tree);
-		tree.put(6.9);
-		System.out.println(tree);
-		tree.put(4d);
-		System.out.println(tree);
+		 System.out.println("TREE TREE TREE TREE TREE TREE TREE");
+		
+		 AVLTree<Integer> tree = new AVLTree<Integer>();
+		 tree.put(7);
+		 System.out.println(tree);
+		 tree.put(12);
+		 System.out.println(tree);
+		 tree.put(13);
+		 System.out.println(tree);
+		 tree.put(3);
+		 System.out.println(tree);
+		 tree.put(11);
+		 System.out.println(tree);
+		 tree.put(1);
+		 System.out.println(tree);
+//		 tree.put(6.9);
+//		 System.out.println(tree);
+//		 tree.put(4d);
+//		 System.out.println(tree);
 		// --- rebalance ---
-//		tree.put(5d);
-//		System.out.println(tree);
-//		tree.put(5d);
-//		System.out.println(tree);
-//		tree.put(7d);
-//		System.out.println(tree);
-//		tree.put(20d);
-//		System.out.println(tree);
-//		tree.put(21d);
-//		System.out.println(tree);
-//		tree.put(22d);
-//		System.out.println(tree);
-//		tree.put(23d);
-//		System.out.println(tree);
-//		tree.put(24d);
-//		System.out.println(tree);
-//		tree.put(25d);
-//		System.out.println(tree);
-//		tree.put(26d);
-//		System.out.println(tree);
-//		tree.put(27d);
-//		System.out.println(tree);
-//		tree.put(28d);
-//		System.out.println(tree);
-//		tree.put(29d);
-//		System.out.println(tree);
+		// tree.put(5d);
+		// System.out.println(tree);
+		// tree.put(5d);
+		// System.out.println(tree);
+		// tree.put(7d);
+		// System.out.println(tree);
+		// tree.put(20d);
+		// System.out.println(tree);
+		// tree.put(21d);
+		// System.out.println(tree);
+		// tree.put(22d);
+		// System.out.println(tree);
+		// tree.put(23d);
+		// System.out.println(tree);
+		// tree.put(24d);
+		// System.out.println(tree);
+		// tree.put(25d);
+		// System.out.println(tree);
+		// tree.put(26d);
+		// System.out.println(tree);
+		// tree.put(27d);
+		// System.out.println(tree);
+		// tree.put(28d);
+		// System.out.println(tree);
+		// tree.put(29d);
+		// System.out.println(tree);
 
 	}
 }

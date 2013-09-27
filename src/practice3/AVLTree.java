@@ -9,7 +9,7 @@ package practice3;
 public class AVLTree<E extends Comparable<E>> {
 
 	// Number of layers in capacity of the tree
-	private int capacityLayers = 5;
+	private int capacityLayers = 2;
 	private Array<E> array;
 	private int currentSize = 0;
 
@@ -53,6 +53,20 @@ public class AVLTree<E extends Comparable<E>> {
 		}
 		return (index % 2 == 0) ? (index - 2) / 2 : (index - 1) / 2;
 	}
+	
+	/**************************************************************************
+	 * Index of the parent node for the current index in the inner array
+	 */
+	private int getSiblingIndex(final int index) {
+		if (index == 0) {
+			return 0;
+		}
+		if (index % 2 == 0) {
+			return getLeftChildIndex(getParentIndex(index));
+		} else {
+			return getRightChildIndex(getParentIndex(index));
+		}
+	}
 
 	/**************************************************************************
 	 * Puts an element into the Tree, maintaining order and height conditions
@@ -71,6 +85,8 @@ public class AVLTree<E extends Comparable<E>> {
 			if (array.getElement(index) == null) {
 				array.setElement(index, element);
 				added = true;
+				currentSize++;
+				break;
 				// NO break ! See #3
 			}
 
@@ -91,7 +107,6 @@ public class AVLTree<E extends Comparable<E>> {
 		}
 
 		rebalance();
-		currentSize++;
 	}
 
 	/**************************************************************************
@@ -142,8 +157,12 @@ public class AVLTree<E extends Comparable<E>> {
 	 * Check if the tree needs rebalancing
 	 */
 	private boolean needRebalance() {
-		System.out.println("left height: " + height(1) + "\tRight height  " + height(2));
-		System.out.println("Number of layers: " + capacityLayers + "\tArray size: " + array.getSize() + "\tTree current size: " + currentSize);
+		// ---------------------------------------------------------------
+		System.out.println("Left height: " + height(1) + "\tRight height  " + height(2));
+		System.out.println("Number of layers: " + capacityLayers + 
+							"\tArray size: " + array.getSize() + 
+							"\tTree current size: " + currentSize);
+		// ---------------------------------------------------------------
 		return (Math.abs(height(1) - height(2)) > 1);
 	}
 
@@ -161,51 +180,90 @@ public class AVLTree<E extends Comparable<E>> {
 	}
 
 	/**************************************************************************
-	 * Rebalance the AVL Tree FIXME
+	 * Rebalance the AVL Tree 
+	 * FIXME
 	 */
 	private void rebalance() {
 		// Fictitious names for now
 		int leftIndex = 0;
 		int rightIndex = 0;
-		int seconParentFromTheEnd = 0;
+		int parentIndex = getParentIndex(getParentIndex(array.getLastPosition()));
 
 		while (needRebalance()) {
-
-			seconParentFromTheEnd = getParentIndex(getParentIndex(array.getLastPosition()));
+			// ---------------------------------------------------------------
+			System.out.println(	"Last position : (" + array.getLastPosition() + ") " + array.getElement(array.getLastPosition()));
+			// ---------------------------------------------------------------
 			
-			System.out.println(	"Last position : " + array.getLastPosition() + 
+			leftIndex = getLeftChildIndex(parentIndex);
+			rightIndex = getRightChildIndex(parentIndex);
+			
+			// ---------------------------------------------------------------
+			System.out.println("NEED REBALANCE!");
+//			System.out.println(array);
+			System.out.println(	"Last position : (" + array.getLastPosition() + ") " + array.getElement(array.getLastPosition()) +
 								" in layer " + getLayerFromIndex(array.getLastPosition()));
-			
-			leftIndex = getLeftChildIndex(seconParentFromTheEnd);
-			rightIndex = getRightChildIndex(seconParentFromTheEnd);
-
 			System.out.println(this);
-			System.out.println("secondParentFromTheEnd: " + seconParentFromTheEnd + "\tleftChild: " + leftIndex
-					+ "\trightChild: " + rightIndex);
-
-			if (height(leftIndex) - height(rightIndex) < -1) {
-				// Left sub-tree is shorter
-
-				System.out.println("Left sub-tree is shorter!");
-
-				if (array.getElement(rightIndex) == null) {
-					System.out.println("Enter right rotation!");
-					rotateRight(getParentIndex(leftIndex));
-				} else {
-					rotateRight(leftIndex);
-				}
-			} else if (height(leftIndex) - height(rightIndex) > 1) {
-				// Left sub-tree is longer
-
+			System.out.println("secondParentFromTheEnd: (" + parentIndex + ") "  + array.getElement(parentIndex)  +
+								"\tleftChild: (" + 	leftIndex 	+ ") "  + array.getElement(leftIndex) + 
+								"\trightChild: (" + rightIndex 	+ ") "  + array.getElement(rightIndex));
+			// ---------------------------------------------------------------
+			
+			
+			if (height(leftIndex) - height(rightIndex) > 1) {
+				
+				// Right sub-tree is shorter
+				// ---------------------------------------------------------------
 				System.out.println("Right sub-tree is shorter!");
-
+				// ---------------------------------------------------------------
+				rotateRight(parentIndex);
+				
+				/*
+				if (array.getElement(rightIndex) == null) {
+					
+					// ---------------------------------------------------------------
+					System.out.println("Enter right rotation!");
+					// ---------------------------------------------------------------
+					
+					rotateRight(parentIndex);
+					
+				} else {
+					// ---------------------------------------------------------------
+					System.out.println("Enter right rotation at (" + 	leftIndex 	+ ") "  + array.getElement(leftIndex));
+					// ---------------------------------------------------------------
+					
+					rotateRight(leftIndex);
+				}*/
+				
+			} else if (height(leftIndex) - height(rightIndex) < -1) {
+				
+				// Left sub-tree is longer
+				// ---------------------------------------------------------------
+				System.out.println("Left sub-tree is shorter!");
+				// ---------------------------------------------------------------
+				rotateLeft(parentIndex);
+				/*
 				if (array.getElement(leftIndex) == null) {
+					
+					// ---------------------------------------------------------------
 					System.out.println("Enter left rotation!");
-					rotateLeft(getParentIndex(rightIndex));
+					// ---------------------------------------------------------------
+					
+					rotateLeft(parentIndex);
+					
 				}else {
-					rotateRight(rightIndex);
-				}
+					// ---------------------------------------------------------------
+					System.out.println("Enter left rotation at (" + 	rightIndex 	+ ") "  + array.getElement(rightIndex));
+					// ---------------------------------------------------------------
+					
+					rotateLeft(rightIndex);
+				}*/
 			}
+			// if (parentIndex > 0) {
+			// parentIndex = getParentIndex(parentIndex);
+			// } else {
+			// rebalance();
+			// }
+			rebalance();
 		}
 	}
 
@@ -294,11 +352,15 @@ public class AVLTree<E extends Comparable<E>> {
 		if (Math.min(fromIndex, destIndex) < array.getSize()) {
 			newArray.setElement(destIndex, array.getElement(fromIndex));
 
-			if (!(array.getElement(getLeftChildIndex(fromIndex)) == null && array.getElement(getLeftChildIndex(destIndex)) == null)) {
+			if (!(	array.getElement(getLeftChildIndex(fromIndex)) == null 
+				&& 	array.getElement(getLeftChildIndex(destIndex)) == null)) {
+				
 				shiftLeaf(getLeftChildIndex(fromIndex), getLeftChildIndex(destIndex), newArray);
 			}
 
-			if (!(array.getElement(getRightChildIndex(fromIndex)) == null && array.getElement(getRightChildIndex(destIndex)) == null)) {
+			if (!(	array.getElement(getRightChildIndex(fromIndex)) == null 
+				&& 	array.getElement(getRightChildIndex(destIndex)) == null)) {
+				
 				shiftLeaf(getRightChildIndex(fromIndex), getRightChildIndex(destIndex), newArray);
 			}
 		}
@@ -307,7 +369,6 @@ public class AVLTree<E extends Comparable<E>> {
 	/**************************************************************************
 	 * Shifting a leaf left or right depending on specified root's fromIndex and
 	 * destIndex (made by recursion)
-	 * FIXME Stack overflow
 	 * 
 	 * @param fromIndex
 	 *            index from which to move
@@ -317,22 +378,30 @@ public class AVLTree<E extends Comparable<E>> {
 	 *            a new array reference
 	 */
 	private void shiftLeafAside(int fromIndex, int destIndex, Array<E> newArray, int level) {
+		if (Math.max(fromIndex, destIndex) > array.getSize()) {
+			return;
+		}
 		int sign = (fromIndex < destIndex) ? 1 : -1;
 		newArray.setElement(fromIndex + sign * level, array.getElement(fromIndex));
+		// ---------------------------------------------------------------
+		System.out.println("Shifting level: " + level + "\t Element " + array.getElement(fromIndex) + 
+				" from " + fromIndex + " to "  + (fromIndex + sign * level));
+		// ---------------------------------------------------------------
 		++level;
 		shiftLeafAside(getLeftChildIndex(fromIndex), getLeftChildIndex(destIndex), newArray, level);
 		shiftLeafAside(getRightChildIndex(fromIndex), getRightChildIndex(destIndex), newArray, level);
 	}
 
-	/**
-	 * 
+	/**************************************************************************
+	 * toString
 	 */
 	public String toString() {
+		
+		// Search for maximum elemnt length
 		int maxlen = 0;
-		int spacelen = 4;
-		String space = "    ";
 		E el;
 		int ellen;
+		
 		for (int i = 0; i < array.getSize(); i++) {
 			el = array.getElement(i);
 			if (el != null) {
@@ -341,39 +410,40 @@ public class AVLTree<E extends Comparable<E>> {
 			}
 
 		}
-
-		int width = (int) Math.pow(2, capacityLayers);
+		
+		// Set spacer length
+		String space = "    ";
+		String nullElemHolder = "[  ]";
+		String outFormat = "[%2s]";
+		
 		int index = 0;
+		int layerIndex = 1;
+		
 		StringBuffer sb = new StringBuffer();
-		int j = 0;
-		for (int l = 1; l <= capacityLayers; ++l) { // Go through all layers
-			sb.append("" + l + ": ");
-
-			// System.out.println("Layer " + l);
-
-			int layerCapacity = (int) Math.pow(2, l - 1);
-			for (j = index; j < index + layerCapacity; j++) { // Go through a
-																// layer
-
-				// System.out.println("j = " + j + "\tindex = " + index);
-
-				for (int k = 0; k < width / spacelen / (Math.pow(2, l - 1)); k++) {
+		
+		while (layerIndex <= capacityLayers) {
+			for (int i = 1; i < Math.pow(2, capacityLayers - layerIndex); ++i) {
+				sb.append(space);
+			}
+			for(int i = index; i <= Math.pow(2, layerIndex) - 2; ++i) {
+				el = array.getElement(i);
+				if (el != null) {
+//					sb.append(el);
+					sb.append(String.format(outFormat, el.toString()));
+				} else {
+					sb.append(nullElemHolder);
+				}
+				for (int k = 1; k < Math.pow(2, capacityLayers - layerIndex + 1); ++k) {
 					sb.append(space);
 				}
-				el = array.getElement(j);
-				if (el != null) {
-					sb.append(el);
-				} else {
-					sb.append("[ ]");
-				}
 			}
-			index = j;
-//			if (index > currentSize) {
-//				break;
-//			}
+			
 			sb.append("\n");
+			++layerIndex;
+			index = (int) (Math.pow(2, layerIndex - 1) - 1);
 		}
-
+		
+		
 		return sb.toString();
 	}
 
