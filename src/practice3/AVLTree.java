@@ -126,11 +126,11 @@ public class AVLTree<E extends Comparable<E>> {
 	private int height(final int index) {
 
 		// Left and right children indices
-		int childIndex_l = getLeftChildIndex(index);
-		int childIndex_r = getRightChildIndex(index);
+		int leftChildIndex = getLeftChildIndex(index);
+		int rightChildIndex = getRightChildIndex(index);
 
-		boolean childIsNull_l = (array.getElement(childIndex_l) == null);
-		boolean childIsNull_r = (array.getElement(childIndex_r) == null);
+		boolean childIsNull_l = (array.getElement(leftChildIndex) == null);
+		boolean childIsNull_r = (array.getElement(rightChildIndex) == null);
 
 		if (index < array.getSize() && array.getElement(index) == null) {
 			// The index is valid but the node is null
@@ -143,14 +143,14 @@ public class AVLTree<E extends Comparable<E>> {
 		}
 
 		if (childIsNull_l) { // No left (lesser) child
-			return 1 + height(childIndex_r);
+			return 1 + height(rightChildIndex);
 		}
 
 		if (childIsNull_r) { // No right (bigger) child
-			return 1 + height(childIndex_l);
+			return 1 + height(leftChildIndex);
 		}
 
-		return 1 + Math.max(height(childIndex_l), height(childIndex_r));
+		return 1 + Math.max(height(leftChildIndex), height(rightChildIndex));
 	}
 
 	/**************************************************************************
