@@ -1,0 +1,7 @@
+out
+bin
+*.class
+.classpath
+.project
+.settings/
+practice3.iml
