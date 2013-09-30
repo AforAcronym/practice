@@ -9,7 +9,6 @@ public class Array<E> {
     private E[] array;
 
     /**
-     * ***********************************************************************
      * Constructor
      *
      * @param size
@@ -20,7 +19,6 @@ public class Array<E> {
     }
 
     /**
-     * ***********************************************************************
      * Returns size
      *
      * @return
@@ -30,7 +28,6 @@ public class Array<E> {
     }
 
     /**
-     * ***********************************************************************
      * Check whether the index is within array boundaries
      *
      * @param index
@@ -41,7 +38,6 @@ public class Array<E> {
     }
 
     /**
-     * ***********************************************************************
      * If index is within array boundary, returns Element at specified index,
      * otherwise returns null
      *
@@ -56,7 +52,6 @@ public class Array<E> {
     }
 
     /**
-     * ***********************************************************************
      * If index is within array boundary, places specified element at specified
      * position and returns true, otherwise returns false
      *
@@ -82,7 +77,6 @@ public class Array<E> {
     }
 
     /**
-     * ***********************************************************************
      * Append element to the end  of the array and expand capacity by one if needed
      *
      * @param element
@@ -96,7 +90,44 @@ public class Array<E> {
     }
 
     /**
-     * ***********************************************************************
+     * Remove cell with the passed index. Capacity is reduced by one.
+     *
+     * @param index
+     */
+    public void removeAt(int index) {
+        E[] temparray = (E[]) new Object[array.length - 1];
+
+        if (index == 0) {
+            // Copy everything except first element
+            System.arraycopy(array, 1, temparray, 0, array.length - 1);
+
+        } else if (index == array.length - 1) {
+            // Copy everything except last element
+            System.arraycopy(array, 0, temparray, 0, array.length - 1);
+
+        } else if (indexOK(index)) {
+            // Assume deletion at index = 3
+            // 0 1 2 3 4 5 6 7 8 9
+            // _ _ _ x _ _ _ _ _ _
+
+            // 0 1 2 _ _ _ _ _ _
+            System.arraycopy(array, 0, temparray, 0, index);
+
+            // _ _ _ 4 5 6 7 8 9
+            System.arraycopy(array, index + 1, temparray, index, array.length - 1 - index);
+            // Result:
+            // 0 1 2 4 5 6 7 8 9
+
+        } else {
+
+            throw new IndexOutOfBoundsException("Cannot delete element - invalid index passed: "
+                    + index + "not in 0..." + (array.length - 1) + " range.");
+        }
+
+        array = temparray;
+    }
+
+    /**
      * Change capacity by the passed number (may be negative)
      *
      * @param number
@@ -110,7 +141,6 @@ public class Array<E> {
     }
 
     /**
-     * ***********************************************************************
      * Change capacity by the passed number (may be negative)
      */
     public Array<E> getCopy() {
@@ -120,8 +150,9 @@ public class Array<E> {
     }
 
     /**
-     * ***********************************************************************
      * Shifts array content adding or removing cells at the beginning
+     *
+     * @param number
      */
     private void shiftBy(int number) {
         E[] temparr = (E[]) new Object[array.length + number];
@@ -133,7 +164,21 @@ public class Array<E> {
     }
 
     /**
-     * ***********************************************************************
+     * Shifts array content adding or removing cells starting at the passed index
+     *
+     * @param index
+     * @param number
+     */
+    private void shiftBy(int index, int number) {
+        E[] temparr = (E[]) new Object[array.length + number];
+        int srcPos = (number > 0) ? 0 : number;
+        int destPos = (number > 0) ? number : 0;
+        int length = (number > 0) ? array.length : array.length - number;
+        System.arraycopy(array, srcPos, temparr, destPos, length);
+        array = temparr;
+    }
+
+    /**
      * Returns String
      */
     public int getLastPosition() {
@@ -141,7 +186,6 @@ public class Array<E> {
     }
 
     /**
-     * ***********************************************************************
      * Returns String
      */
     @Override
@@ -155,5 +199,6 @@ public class Array<E> {
         }
         return sb.toString();
     }
+
 
 }

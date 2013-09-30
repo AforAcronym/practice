@@ -282,8 +282,12 @@ public class CollectionsTest {
      * ***********************************************************************
      */
     public static void testHashTable() {
-        HashtableNaive h = new HashtableNaive();
-        System.out.println(" - - - - - - Printing out new HashtableNaive");
+        // HashtableNaive h = new HashtableNaive();
+        // System.out.println(" - - - - - - Printing out new HashtableNaive");
+
+
+        HashTable<String, String> h = new HashTable<String, String>();
+        System.out.println(" - - - - - - Printing out new HashTable");
         System.out.println(h);
 
         System.out.println(" - - - - - - Put: yolo → swag");
@@ -415,11 +419,24 @@ public class CollectionsTest {
         // testStack();
         // System.out.println("===============================");
         //
-        testHashTable();
+//        testHashTable();
         // System.out.println("==================================");
         //
         // testAVLTree();
         // System.out.println("==================================");
+
+
+        System.out.println("toString:  " + new Object());
+        System.out.println("Hash code: " + new Object().hashCode());
+
+        System.out.println("Hash code of \"Ololo\":  " + "Ololo".hashCode());
+        System.out.println("Hash code of \"Ololo\":  " + "Ololo".hashCode());
+        System.out.println("Hash code of \"Trololo\" :" + "Trololo".hashCode());
+
+
+        System.out.println("Hash code of \"Ololo\"  :" + "Ololo".hashCode());
+        System.out.println("Hash code of \"Salt\"   :" + "Salt".hashCode());
+        System.out.println("Hash code of \"OloloSalt\"  :" + "OloloSalt".hashCode());
 
 
     }
