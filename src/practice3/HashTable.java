@@ -5,19 +5,39 @@ package practice3;
  */
 public class HashTable<K, V> {
 
-    private double loadFactor = 0.75;
+    static private String saltString = "OloloPewPew";
+    // static private int[] primes = {97, 997, 9973, 99991, 999983, 9999991, 99999989, 999999937};
+    static private int[] primes = {101, 1009, 10007, 100003, 1000003, 10000019, 100000007, 1000000007};
+    private double loadFactor = 0.75; // Must be > 0.5, see rescale usage in 'put' method
     private double loadCounter = 0;
-    private int capacity = 50;
+    private int capacityIndex = 0;
     // Array of Arrays of KeyValueHolders
-    private Array<Array<KeyValueHolder<K, V>>> buckets = new Array<Array<KeyValueHolder<K, V>>>(capacity);
+    private Array<Array<KeyValueHolder<K, V>>> buckets;
     // Exchanging variables for searchElement(K key) method usage
     private int _searchBucketIndex;
     private int _searchInnerIndex;
     private KeyValueHolder<K, V> _searchHolder;
+    private int saltInteger;
 
-    private int saltInteger = (int) System.currentTimeMillis();
-    private String saltString = "OloloPewPew";
-    private int[]
+
+    /**
+     * Constructor
+     */
+    public HashTable() {
+        saltInteger = (int) System.currentTimeMillis();
+        buckets = new Array<Array<KeyValueHolder<K, V>>>(primes[capacityIndex]);
+    }
+
+    /**
+     * Constructor
+     */
+    public HashTable(int capacity) {
+        saltInteger = (int) System.currentTimeMillis();
+        while (primes[capacityIndex] < capacity) {
+            capacityIndex++;
+        }
+        buckets = new Array<Array<KeyValueHolder<K, V>>>(primes[capacityIndex]);
+    }
 
     /**
      * Hash function
@@ -25,16 +45,9 @@ public class HashTable<K, V> {
      * @return index for the inner buckets array
      */
     private int hash(final K key) {
-
-        int res = 0;
-        if (key instanceof String) {
-
-        }
-        // If string
-        // If number
-        // get length of number and nearest prime numbers to mod and to add
-        return res;
-
+        int hash = Math.abs(key.hashCode() + saltInteger);
+        hash = hash % primes[capacityIndex];
+        return hash;
     }
 
     /**
@@ -53,7 +66,6 @@ public class HashTable<K, V> {
 
         if (buckets.getElement(_searchBucketIndex) == null) {
 
-            _searchBucketIndex = -1;
             // The key is not associated with any value
             // There is nothing even with this key's hash
             return;
@@ -82,6 +94,33 @@ public class HashTable<K, V> {
     }
 
     /**
+     * Rescale
+     */
+    private void rescale(int capacityIndex) {
+
+        Array<Array<KeyValueHolder<K, V>>> oldBuckets = buckets;
+
+        // Change the hash capacity
+        buckets = new Array<Array<KeyValueHolder<K, V>>>(primes[capacityIndex]);
+
+        KeyValueHolder<K, V> holder;
+
+        // See the old buckets
+        for (int i = 0; i < oldBuckets.getSize(); ++i) {
+
+            // See the collisions
+            Array<KeyValueHolder<K, V>> subArray = oldBuckets.getElement(i);
+
+            if (subArray != null) {
+                for (int j = 0; j < subArray.getSize(); ++j) {
+                    holder = subArray.getElement(j);
+                    put(holder.key, holder.value);
+                }
+            }
+        }
+    }
+
+    /**
      * Gets a value, associated with specified key, returns null if key is not
      * associated with any value
      *
@@ -90,6 +129,9 @@ public class HashTable<K, V> {
      */
     public V get(K key) {
         searchElement(key);
+        if (_searchHolder == null) {
+            return null;
+        }
         return _searchHolder.value;
     }
 
@@ -111,17 +153,21 @@ public class HashTable<K, V> {
 
         if (_searchHolder == null) {
 
+            // Create the bucket sub-array if there is none
+            if (buckets.getElement(_searchBucketIndex) == null) {
+                buckets.setElement(_searchBucketIndex, new Array<KeyValueHolder<K, V>>(0));
+            }
+
             // Add new holder with the new key-value pair
             buckets.getElement(_searchBucketIndex).append(new KeyValueHolder<K, V>(key, value));
 
             // Count the new entry
             ++loadCounter;
 
-            if (loadCounter / capacity >= loadFactor) {
-                // Increase the hash capacity
-                buckets.changeCapacityBy(buckets.getSize() * 2);
-                capacity = buckets.getSize();
+            if (loadCounter / primes[capacityIndex] >= loadFactor) {
+                rescale(++capacityIndex);
             }
+
 
         } else {
 
@@ -161,7 +207,10 @@ public class HashTable<K, V> {
         }
 
         --loadCounter;
-        // TODO we might need to reduce the bucket array capacity in order to save memory
+
+        if (loadCounter / primes[capacityIndex] >= 1 - loadFactor && capacityIndex > 0) {
+            rescale(--capacityIndex);
+        }
 
         return value;
 
@@ -174,12 +223,33 @@ public class HashTable<K, V> {
      */
     @Override
     public String toString() {
-        // TODO   toString
-        return "";
+        StringBuffer sb = new StringBuffer("HashTable: {");
+
+        KeyValueHolder<K, V> holder;
+
+        // See the old buckets
+        for (int i = 0; i < buckets.getSize(); ++i) {
+
+
+            // See the collisions
+            Array<KeyValueHolder<K, V>> subArray = buckets.getElement(i);
+
+            if (subArray != null) {
+                for (int j = 0; j < subArray.getSize(); ++j) {
+                    sb.append( "\t" );
+                    holder = subArray.getElement(j);
+                    sb.append( holder.key.toString() );
+                    sb.append( "\t→\t" );
+                    sb.append( holder.value.toString() );
+                }
+            }
+        }
+        sb.append("\n}");
+        return sb.toString();
     }
 
     /**
-     * A special inner class for holding key-pair pairs
+     * A special inner class for holding key-value pairs
      *
      * @param <K> key
      * @param <V> value

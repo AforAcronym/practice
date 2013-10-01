@@ -77,16 +77,20 @@ public class Array<E> {
     }
 
     /**
-     * Append element to the end  of the array and expand capacity by one if needed
+     * Append element to the end of the array. Expand capacity by one if needed
      *
      * @param element
      * @return
      */
     public boolean append(E element) {
-        if (lastPos > array.length - 1) {
+
+        if (lastPos == array.length - 1 || array.length == 0) {
             changeCapacityBy(1);
+            if (array.length == 1) {
+                return setElement(0, element);
+            }
         }
-        return setElement(lastPos, element);
+        return setElement(++lastPos, element);
     }
 
     /**
@@ -94,6 +98,7 @@ public class Array<E> {
      *
      * @param index
      */
+    @SuppressWarnings("unchecked")
     public void removeAt(int index) {
         E[] temparray = (E[]) new Object[array.length - 1];
 
@@ -101,9 +106,14 @@ public class Array<E> {
             // Copy everything except first element
             System.arraycopy(array, 1, temparray, 0, array.length - 1);
 
+
         } else if (index == array.length - 1) {
             // Copy everything except last element
             System.arraycopy(array, 0, temparray, 0, array.length - 1);
+
+            if (lastPos == index) {
+                --lastPos;
+            }
 
         } else if (indexOK(index)) {
             // Assume deletion at index = 3
@@ -124,7 +134,13 @@ public class Array<E> {
                     + index + "not in 0..." + (array.length - 1) + " range.");
         }
 
+
         array = temparray;
+
+
+        while (array[lastPos] == null && lastPos > 0) {
+            --lastPos;
+        }
     }
 
     /**
@@ -138,6 +154,13 @@ public class Array<E> {
         E[] temparray = (E[]) new Object[newSize];
         System.arraycopy(array, 0, temparray, 0, array.length > newSize ? newSize : array.length);
         array = temparray;
+
+        if (lastPos > newSize - 1) {
+            lastPos = newSize - 1;
+            while (array[lastPos] == null && lastPos > 0) {
+                --lastPos;
+            }
+        }
     }
 
     /**
@@ -155,21 +178,6 @@ public class Array<E> {
      * @param number
      */
     private void shiftBy(int number) {
-        E[] temparr = (E[]) new Object[array.length + number];
-        int srcPos = (number > 0) ? 0 : number;
-        int destPos = (number > 0) ? number : 0;
-        int length = (number > 0) ? array.length : array.length - number;
-        System.arraycopy(array, srcPos, temparr, destPos, length);
-        array = temparr;
-    }
-
-    /**
-     * Shifts array content adding or removing cells starting at the passed index
-     *
-     * @param index
-     * @param number
-     */
-    private void shiftBy(int index, int number) {
         E[] temparr = (E[]) new Object[array.length + number];
         int srcPos = (number > 0) ? 0 : number;
         int destPos = (number > 0) ? number : 0;

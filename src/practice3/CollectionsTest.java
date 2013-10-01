@@ -20,25 +20,43 @@ public class CollectionsTest {
      */
     public static void testArray() {
 
-        Array<Comparable<?>> myArray = new Array<Comparable<?>>(5);
+        Array<Comparable<?>> myArray = new Array<Comparable<?>>(0);
 
-        myArray.setElement(0, obj0);
-        System.out.println(myArray);
-        System.out.println("Last position: " + myArray.getLastPosition());
+//        System.out.println("Set " + obj0 + " to " + 0);
+//        myArray.setElement(0, obj0);
+//        System.out.println(myArray);
+//        System.out.println("Last position: " + myArray.getLastPosition());
+//
+//        System.out.println("Set " + obj1 + " to " + 1);
+//        myArray.setElement(1, obj1);
+//        System.out.println(myArray);
+//        System.out.println("Last position: " + myArray.getLastPosition());
+//
+//        System.out.println("Set " + obj2 + " to " + 4);
+//        myArray.setElement(4, obj2);
+//        System.out.println(myArray);
+//        System.out.println("Last position: " + myArray.getLastPosition());
+//
+//        System.out.println("Set " + obj2 + " to " + 3);
+//        myArray.setElement(3, obj2);
+//        System.out.println(myArray);
+//        System.out.println("Last position: " + myArray.getLastPosition());
+//
+//        System.out.println("Set " + null + " to " + 4);
+//        myArray.setElement(4, null);
+//        System.out.println(myArray);
+//        System.out.println("Last position: " + myArray.getLastPosition());
+//
+//        System.out.println("Remove at 3");
+//        myArray.removeAt(3);
+//        System.out.println(myArray);
+//        System.out.println("Last position: " + myArray.getLastPosition());
 
-        myArray.setElement(1, obj1);
-        System.out.println(myArray);
-        System.out.println("Last position: " + myArray.getLastPosition());
 
-        myArray.setElement(4, obj2);
-        System.out.println(myArray);
-        System.out.println("Last position: " + myArray.getLastPosition());
-
-        myArray.setElement(3, obj2);
-        System.out.println(myArray);
-        System.out.println("Last position: " + myArray.getLastPosition());
-
-        myArray.setElement(4, null);
+        System.out.println("Append 10, 6 and " + obj7);
+        myArray.append(10);
+        myArray.append(6);
+        myArray.append(obj7);
         System.out.println(myArray);
         System.out.println("Last position: " + myArray.getLastPosition());
 
@@ -316,9 +334,16 @@ public class CollectionsTest {
         System.out.println(" - - - - - - Printing out");
         System.out.println(h);
 
-        System.out.println(" - - - - - - Set: pewpew => bzzzz");
+        System.out.println(" - - - - - - Set and get: pewpew => bzzzz");
         h.put("pewpew", "bzzzz");
         System.out.println(h.get("pewpew"));
+
+        System.out.println(" - - - - - - Printing out");
+        System.out.println(h);
+
+        System.out.println(" - - - - - - Remove: abracadabra and check for null");
+        h.remove("abracadabra");
+        System.out.println(h.get("abracadabra"));
 
         System.out.println(" - - - - - - Printing out");
         System.out.println(h);
@@ -419,24 +444,24 @@ public class CollectionsTest {
         // testStack();
         // System.out.println("===============================");
         //
-//        testHashTable();
-        // System.out.println("==================================");
-        //
         // testAVLTree();
         // System.out.println("==================================");
+        //
+        testHashTable();
+        // System.out.println("==================================");
 
 
-        System.out.println("toString:  " + new Object());
-        System.out.println("Hash code: " + new Object().hashCode());
-
-        System.out.println("Hash code of \"Ololo\":  " + "Ololo".hashCode());
-        System.out.println("Hash code of \"Ololo\":  " + "Ololo".hashCode());
-        System.out.println("Hash code of \"Trololo\" :" + "Trololo".hashCode());
-
-
-        System.out.println("Hash code of \"Ololo\"  :" + "Ololo".hashCode());
-        System.out.println("Hash code of \"Salt\"   :" + "Salt".hashCode());
-        System.out.println("Hash code of \"OloloSalt\"  :" + "OloloSalt".hashCode());
+//        System.out.println("toString:  " + new Object());
+//        System.out.println("Hash code: " + new Object().hashCode());
+//
+//        System.out.println("Hash code of \"Ololo\":  " + "Ololo".hashCode());
+//        System.out.println("Hash code of \"Ololo\":  " + "Ololo".hashCode());
+//        System.out.println("Hash code of \"Trololo\" :" + "Trololo".hashCode());
+//
+//
+//        System.out.println("Hash code of \"Ololo\"  :" + "Ololo".hashCode());
+//        System.out.println("Hash code of \"Salt\"   :" + "Salt".hashCode());
+//        System.out.println("Hash code of \"OloloSalt\"  :" + "OloloSalt".hashCode());
 
 
     }
