@@ -6,7 +6,7 @@ package practice3;
  * takes an object of type T and a getValue method that returns value
  * of type T.
  */
-public class Holder<T> {
+public class Holder<T extends Comparable<T>> implements Comparable<Holder<T>> {
 
     T value;
 
@@ -16,5 +16,21 @@ public class Holder<T> {
 
     public T getValue() {
         return value;
+    }
+
+    public String toString() {
+        return "Holder[" + value + "]";
+    }
+
+    public int hashCode() {
+        return value.hashCode();
+    }
+
+    public boolean equals(Holder<T> h) {
+        return value.equals(h.value);
+    }
+
+    public int compareTo(Holder<T> h) {
+        return value.compareTo(h.value);
     }
 }
