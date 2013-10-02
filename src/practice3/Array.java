@@ -1,5 +1,7 @@
 package practice3;
 
+import java.util.Random;
+
 /**
  * Created with IntelliJ IDEA. Continued with Eclipse. by E. Shevchenko
  */
@@ -16,6 +18,19 @@ public class Array<E> {
     @SuppressWarnings("unchecked")
     public Array(int size) {
         array = (E[]) new Object[size];
+    }
+
+    /**
+     * Get random element from an array
+     *
+     * @param arr
+     * @param <T>
+     * @return
+     */
+    public static <T> T random(Array<T> arr) {
+        Random rand = new Random();
+        return arr.getElement(rand.nextInt(arr.getSize()));
+
     }
 
     /**
@@ -89,6 +104,9 @@ public class Array<E> {
             if (array.length == 1) {
                 return setElement(0, element);
             }
+        }
+        if (array.length > 0 && lastPos == 0 && array[lastPos] == null) {
+            return setElement(lastPos, element);
         }
         return setElement(++lastPos, element);
     }
@@ -208,5 +226,18 @@ public class Array<E> {
         return sb.toString();
     }
 
+    public static void main(String[] args) {
+
+        int len = 10;
+        Array<Integer> arr = new Array<Integer>(len);
+        for (int i = 0; i < len; ++i) {
+            arr.append(i);
+        }
+        System.out.println(arr);
+        for (int i = 0; i < len; ++i) {
+            System.out.println("Random #" + i + ": " + Array.random(arr));
+        }
+
+    }
 
 }
