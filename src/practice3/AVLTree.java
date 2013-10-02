@@ -386,7 +386,13 @@ public class AVLTree<E extends Comparable<E>> {
      * @return
      */
     public Vector toVector() {
-        return new Vector(0);
+        Vector<E> vec = new Vector<E>(currentSize);
+        for (int i=0; i < currentSize; ++i) {
+            if (array.getElement(i) != null) {
+                vec.addElement(array.getElement(i));
+            }
+        }
+        return vec;
     }
 
 }
