@@ -41,6 +41,7 @@ public class HashTable<K, V> {
 
     /**
      * Hash function
+     * FIXME Only hashcode could be used. See source of HashTable and HashMap
      *
      * @return index for the inner buckets array
      */
@@ -236,11 +237,11 @@ public class HashTable<K, V> {
 
             if (subArray != null) {
                 for (int j = 0; j < subArray.getSize(); ++j) {
-                    sb.append( "\t" );
+                    sb.append("\t");
                     holder = subArray.getElement(j);
-                    sb.append( holder.key.toString() );
-                    sb.append( "\t→\t" );
-                    sb.append( holder.value.toString() );
+                    sb.append(holder.key.toString());
+                    sb.append("\t→\t");
+                    sb.append(holder.value.toString());
                 }
             }
         }

@@ -68,6 +68,7 @@ public class AVLTree<E extends Comparable<E>> {
 
     /**
      * Puts an element into the Tree, maintaining order and height conditions
+     * FIXME bloated code, can be implemented via recursion
      *
      * @param element
      */
@@ -387,7 +388,7 @@ public class AVLTree<E extends Comparable<E>> {
      */
     public Vector toVector() {
         Vector<E> vec = new Vector<E>(currentSize);
-        for (int i=0; i < currentSize; ++i) {
+        for (int i = 0; i < currentSize; ++i) {
             if (array.getElement(i) != null) {
                 vec.addElement(array.getElement(i));
             }

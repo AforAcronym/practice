@@ -33,12 +33,15 @@ import java.util.Set;
 public class WorkingWithSets {
     public static void main(String[] args) {
         int size = 10;
+
         Set s1 = new HashSet<Holder<Integer>>(size);    // a
         for (int i = 0; i < size; ++i) {
             s1.add(new Holder<Integer>(i));
         }                                // b
+
         System.out.println("Set 1 size: " + s1.size());// c
         System.out.println("Set 1 itself: " + s1);// d
+
         Set s2 = new HashSet<Holder<Integer>>(size); //e
         for (int i = 0; i < size; ++i) {
             s2.add(new Holder<Integer>(i + 1));
@@ -46,10 +49,9 @@ public class WorkingWithSets {
         System.out.println("Set 2 size: " + s2.size());
         System.out.println("Set 2 itself: " + s2);
 
-        Iterator<Holder<Integer>> it = s2.iterator();
-        while (it.hasNext()) {
-            s1.add(it.next());
-        }
+
+        s1.addAll(s2);
+
         System.out.println("United set size: " + s1.size());
         System.out.println("United set itself: " + s1);
 

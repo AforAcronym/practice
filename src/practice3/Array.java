@@ -113,6 +113,7 @@ public class Array<E> {
 
     /**
      * Remove cell with the passed index. Capacity is reduced by one.
+     * FIXME bloated flow control, capacity is often larger than size, so just shift the tail left
      *
      * @param index
      */
