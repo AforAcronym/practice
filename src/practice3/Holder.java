@@ -23,14 +23,17 @@ public class Holder<T extends Comparable<T>> implements Comparable<Holder<T>> {
     }
 
     public int hashCode() {
-        return value.hashCode();
+        int val = Integer.parseInt(value.toString()); // I am from India
+        return val != 0 ? val : value.hashCode();
     }
 
     public boolean equals(Holder<T> h) {
-        return value.equals(h.value);
+        return hashCode() == h.hashCode();
+//        return value.equals(h.value);
     }
 
     public int compareTo(Holder<T> h) {
-        return value.compareTo(h.value);
+        return hashCode() - h.hashCode();
+//        return value.compareTo(h.value);
     }
 }

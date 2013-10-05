@@ -1,9 +1,6 @@
 package practice3;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Goal: Become familiarized with java.util.List API.
@@ -21,6 +18,7 @@ import java.util.Random;
  * to one of utility methods of Arrays class
  */
 public class WorkingWithLists {
+    @SuppressWarnings("unchecked")
     public static void main(String[] args) {
 
         int len = 10;
@@ -45,13 +43,16 @@ public class WorkingWithLists {
         java.util.Collections.sort(lst);
         System.out.println("The list: " + lst); // d
 
-        java.util.Collections.sort(lst);  // FIXME descending order
+        java.util.Collections.sort(lst, Collections.reverseOrder());
         System.out.println("The list: " + lst); // e
 
-        Holder<Integer>[] arr = (Holder<Integer>[]) new Object[len];
+//        Holder<Integer>[] arr = (Holder<Integer>[]) new Object[len];
+        Holder<?>[] arr = new Holder<?>[len];
         for (int i = 0; i < len; ++i) {
             arr[i] = new Holder<Integer>(rand.nextInt(100));
         }
-//        Arrays.asList(new Holder<Integer>[]);
+//        List<Holder<Integer>> arrList = Arrays.asList(arr);
+        List<Holder<?>> arrList = Arrays.asList(arr);
+        System.out.println(arrList);
     }
 }
