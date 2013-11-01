@@ -1,6 +1,7 @@
 package practice4;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * 4.	Create a Java Flights GUI. The window must consist of the following components:
@@ -17,6 +18,10 @@ import javax.swing.*;
 public class Flights extends JFrame {
 
     public static void main(String[] args) {
+
+        GridLayout lyt = new GridLayout(2, 0);
+
+
 
     }
 }
